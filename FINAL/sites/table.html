@@ -1,0 +1,41 @@
+<table class="table80 bordered centered">
+    <thead>
+      <tr>
+        <th data-field="id">ID</th>
+        <th data-field="name">Name</th>
+        <th data-field="kraftstoff">Kraftstoff</th>
+        <th data-field="farbe">Farbe</th>
+        <th data-field="bauart">Baurart</th>
+        <th data-field="betankungen">Tank</th>
+        <th data-field="action">
+          <i class="material-icons add orange-text">add</i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+
+<script id="template" type="x-tmpl-mustache">
+{{#data}}
+    {{#.}}
+      <tr>
+        <td>{{id}}</td>
+        <td>{{name}}</td>
+        <td>{{kraftstoff}}</td>
+        <td><i class="material-icons left" style='background-color:{{farbe}}; color:{{farbe}};'>crop_square</i>{{farbe}}</td>
+        <td>{{bauart}}</td>
+        <td>{{betankungen}}</td>
+        <td data-id={{id}}>
+
+        <i class="material-icons tableHover tanken blue-text">directions_car</i>
+        <i class="material-icons tableHover edit green-text">edit</i>
+        <i class="material-icons tableHover delete red-text">delete</i>
+          
+        </td>
+      </tr>
+    {{/.}}
+{{/data}}
+</script>

@@ -1,0 +1,42 @@
+<table class="table80 bordered centered">
+    <thead>
+      <tr>
+        <th data-field="id">ID</th>
+        <th data-field="name">Name</th>
+        <th data-field="kraftstoff">Kraftstoff</th>
+        <th data-field="farbe">Farbe</th>
+        <th data-field="bauart">Baurart</th>
+        <th data-field="tank">Tank</th>
+        <th data-field="action">
+          <a class="waves-effect waves-light btn modal-trigger material-icons" id="modalAdd" href="#addAuto">add</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+
+<script id="templateExample" type="x-tmpl-mustache">
+{{#data}}
+    {{#.}}
+    <tr>
+      <td>{{id}}</td>
+      <td>{{name}}</td>
+      <td>{{treibstoff}}</td>
+      <td><i class="material-icons left" style='background-color:{{farbe}}; color:{{farbe}};'>crop_square</i>{{farbe}}</td>
+      <td>{{bauart}}</td>
+      <td>{{tank}}</td>
+      <td data-id={{id}}>
+        <a class="tanken material-icons waves-effect waves-light modal-trigger btn " id="tankeAuto" href="#tankeAuto"><i
+          class="material-icons blue-text">directions_car</i></a>
+        <a class="edit material-icons waves-effect waves-light modal-trigger btn" id="editAuto" href="#editAuto"><i
+        class="material-icons green-text">edit</i></a>
+        <a class="delete material-icons waves-effect waves-light modal-trigger btn" id="loescheAuto" href="#loescheAuto"><i
+          class="material-icons red-text">delete_forever</i></a>
+      </td>
+    </tr>
+    {{/.}}
+{{/data}}
+</script>

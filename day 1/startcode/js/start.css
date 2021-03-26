@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+body {
+    background-color: red;
+    font-family: 'Chango', cursive;
+}
+body > div{
+    background-color: aquamarine;
+}
+body .meineClass{
+    background-color: aquamarine;
+}
+body #meineID{
+    background-color: aquamarine;
+}
+div:hover{
+    background-color: blue;
+}
+nav ul li i{
+    display: inline-block !important;
+    vertical-align: bottom !important;
+}

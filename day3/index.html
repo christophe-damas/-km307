@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <input type="text" name="feld1" id="feld1">
+    <input type="number" name="id" id="id" value="0">
+    <input type="submit" value="update oder insert" id="submit">
+    <input type="submit" value="tanken" id="tanken">
+    <input type="submit" value="delete" id="delete">
+    <input type="submit" value="get mit id" id="getmitid">
+    <input type="submit" value="get alle" id="getalle">
+    <script>
+        $(function () {
+            /**/
+            $('#submit').click(function (e) {
+                e.preventDefault();
+                var id = $('#id').val();
+                console.log('click submit');
+                $.ajax({
+                    type: "POST",
+                    url: "api.php?id=" + id,
+                    data: {
+                        feld1: $('#feld1').val()
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        console.log('post success');
+                        console.log(response);
+                        showMeldung(response);
+                    }
+                });
+            });
+            $('#tanken').click(function (e) {
+                e.preventDefault();
+                var id = $('#id').val();
+                $.ajax({
+                    type: "TANKEN",
+                    url: "api.php?id=" + id,
+                    dataType: "JSON",
+                    success: function (response) {
+                        console.log("tanken success");
+                        showMeldung(response);
+                    }
+                });
+            });
+            $('#delete').click(function (e) {
+                e.preventDefault();
+                var id = $('#id').val();
+                $.ajax({
+                    type: "DELETE",
+                    url: "api.php?id=" + id,
+                    dataType: "JSON",
+                    success: function (response) {
+                        console.log("delete success");
+                        showMeldung(response);
+                    }
+                });
+            });
+
+            function showMeldung(response){
+                // console.log(response['error']);
+                if(response['error']){
+                    console.error(response['error']);
+                    // M.toast({html: response['error'], classes: "red"});
+                }
+                // console.log(response['success']);
+                if(response['success']){
+                    console.warn(response['success'])
+                }
+            }
+
+            $('#getmitid').click(function (e) {
+                e.preventDefault();
+                var id = $('#id').val();
+                $.ajax({
+                    type: "GET",
+                    url: "api.php?id=" + id,
+                    dataType: "JSON",
+                    success: function (response) {
+                        console.log("getid success");
+                        console.log(response);
+                        showMeldung(response);
+                    }
+                });
+            });
+            $('#getalle').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    url: "api.php",
+                    dataType: "JSON",
+                    success: function (response) {
+                        console.log("getalle success");
+                        showMeldung(response);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

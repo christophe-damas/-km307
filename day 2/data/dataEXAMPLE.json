@@ -1,0 +1,26 @@
+{
+    "data": [
+        {
+            "id" : "1",
+            "vorname" : "max",
+            "nachname" : "mustermann",
+            "email" : "max.mustermann.gmail.com",
+            "telnr" : "079 777 44 33"
+        },
+        {
+            "id" : "2",
+            "vorname" : "tim",
+            "nachname" : "musk",
+            "email" : "tim.musk.gmail.com",
+            "telnr" : "079 999 77 66"
+        },
+        {
+            "id" : "3",
+            "vorname" : "linda",
+            "nachname" : "ulrich",
+            "email" : "linda.ulrich.gmail.com",
+            "telnr" : "079 234 56 78"
+        }
+    ]
+}
+
