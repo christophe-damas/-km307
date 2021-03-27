@@ -47,9 +47,10 @@ function getData(){
                         console.log("tanken success");
                         console.log(id)
                         showMeldung(response);
+
                     }
                 });
-                
+                getData();
             });
     
         }
