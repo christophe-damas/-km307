@@ -30,9 +30,9 @@
    <link rel="stylesheet" href="css/style.css">
 
    <script src="js/script.js"></script>
-   <script src="js/modal.js"></script>
+   <!-- <script src="js/modal.js"></script>
    <script src="js/delModal.js"></script>
-    
+     -->
     
 </head>
 <body>
@@ -57,9 +57,39 @@
         </div>
       </nav>
     
+
+      
+
+
+        <!-- Modal Structure -->
+      <div id="modal2" class="modal">
+        <div class="modal-content">
+          <h4 id="modal-title">Modal Header</h4>
+          <!-- <span id="elementID"></span> -->
+          <p id="modal-content">A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat cancel bgColorLightGreyHover borderDarkGrey"><i class="material-icons">cancel</i></a>
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat save bgColorLightGreyHover borderDarkGrey"><i class="material-icons">save</i></a>
+        </div>
+      </div>
+
+      <!-- Modal Structure -->
+      <div id="delModal" class="modal">
+        <div class="modal-content">
+          <h4 id="modal-title">Modal Header</h4>
+          <!-- <span id="elementID"></span> -->
+          <p id="modal-content">A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat cancel bgColorLightGreyHover borderDarkGrey">
+            <i class="material-icons">cancel</i></a>
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat deleteToast bgColorLightGreyHover borderDarkGrey">
+            <i class="material-icons">delete</i></a>          
+        </div>
+      </div>
+
       <data-table></data-table>
-      <data-modal></data-modal>
-      <data-delModal></data-delModal>
 
 
       <footer class="page-footer footer-position"> 

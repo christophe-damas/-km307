@@ -86,15 +86,33 @@ class auto{
     }
     function POST(){
         if(isset($_GET['id']) AND $_GET['id'] > 0){
-            $name       = $_REQUEST['name'];
-            $kraftstoff = isset($_REQUEST['kraftstoff']) ? $_REQUEST['kraftstoff'] : '';
-            $farbe      = isset($_REQUEST['color']) ? $_REQUEST['color'] : '';
-            $bauart     = isset($_REQUEST['type']) ? $_REQUEST['type'] : '';
-            $tank       = isset($_REQUEST['tank']) ? $_REQUEST['tank'] : 0;
-            $id         = $_REQUEST['id'];
+            $name       = $_POST['name'];
+            $kraftstoff = isset($_POST['kraftstoff']) ? $_POST['kraftstoff'] : '';
+            $farbe      = isset($_POST['color']) ? $_POST['color'] : '';
+            $bauart     = isset($_POST['bauart']) ? $_POST['bauart'] : '';
+            $tank       = isset($_POST['tank']) ? $_POST['tank'] : 0;
+            $id         = $_GET['id'];
 
-            $sql = "UPDATE autos SET `tank`=$tank , `name`='$name', `kraftstoff`='$kraftstoff', `farbe`='$farbe', `bauart`='$bauart' WHERE `id`=$id";
+            $sql = "UPDATE autos SET `betankungen`=$tank , `name`='$name', `kraftstoff`='$kraftstoff', `farbe`='$farbe', `bauart`='$bauart' WHERE `id`=$id";
+            echo $sql;
             $this->conn->query($sql);
+        }
+
+        else{
+        
+            $name       = $_POST['name'];
+            $kraftstoff = isset($_POST['kraftstoff']) ? $_POST['kraftstoff'] : '';
+            $farbe      = isset($_POST['color']) ? $_POST['color'] : '';
+            $bauart     = isset($_POST['bauart']) ? $_POST['bauart'] : '';
+            if(isset($_POST['tank'])){
+                $tank = $_POST['tank'];
+            }else{
+                $tank = 0;
+            }
+            
+            $sql = "INSERT INTO autos (`name`, `kraftstoff`, `farbe`, `bauart`, `betankungen`) VALUES ('$name', '$kraftstoff', '$farbe', '$bauart', $tank)";
+            $this->conn->query($sql);
+        
         }
         
     }

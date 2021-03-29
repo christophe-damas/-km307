@@ -8,7 +8,7 @@
         <th data-field="bauart">Baurart</th>
         <th data-field="betankungen">Tank</th>
         <th data-field="action">
-          <i class="material-icons add orange-text">add</i>
+          <a class="modal-trigger add" href="#modal2"><i class="material-icons orange-text">add</i></a>
         </th>
       </tr>
     </thead>
@@ -31,8 +31,8 @@
         <td data-id={{id}}>
 
         <i class="material-icons tableHover tanken blue-text">directions_car</i>
-        <i class="material-icons tableHover edit green-text">edit</i>
-        <i class="material-icons tableHover delete red-text">delete</i>
+        <a class="modal-trigger edit" href="#modal2"><i class="material-icons tableHover green-text">edit</i></a>
+        <a class="modal-trigger delete" href="#delModal"><i class="material-icons tableHover red-text">delete</i></a>
           
         </td>
       </tr>

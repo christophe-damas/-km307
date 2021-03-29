@@ -1,9 +1,12 @@
 $('.add').click(function () {
-    var id = $(this).parent().attr('data-id')
+    var id = "addNewRecord"
     console.log(id)
     showModal(id, "Add");
 });
 getData();
+
+$('.modal').modal();
+
 
 function getData(){
 
@@ -30,6 +33,7 @@ function getData(){
                 var id = $(this).parent().attr('data-id')
                 showDelModal(id);
                 console.log(id)
+                
             });
             $('.edit').click(function () {
                 var id = $(this).parent().attr('data-id')
@@ -47,10 +51,10 @@ function getData(){
                         console.log("tanken success");
                         console.log(id)
                         showMeldung(response);
-
+                        getData();
                     }
                 });
-                getData();
+                
             });
     
         }
