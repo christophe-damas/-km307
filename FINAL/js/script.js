@@ -8,41 +8,62 @@ $(function () {
         $.getScript("js/table.js", function () { });
     });
 
-    $('#modal2').modal();
     $('#delModal').modal();
-
-    $('.save').click(function () {
-        console.log("save")
+    $('#modal2').modal();
+    
+    $('#sichern').click(function () {
+        console.log("xxxxxxxxxxx")
         var id = $('#id').val();
         // console.log(id);
         // console.log('click submit');
-        $.ajax({
-            type: "POST",
-            url: "api.php?id=" + id,
-            data: {
-                name: $('#name').val(),
-                kraftstoff: $('#kraftstoff').val(),
-                color: $('#color').val(),
-                bauart: $('#bauart').val(),
-                tank: $('#tank').val()
-            },
-            dataType: "JSON",
-            success: function (response) {
-                console.log('post success');
-                console.log(response);
-                console.log(data);
-            }
-        })
-        M.toast({html: modus + " - Saved", classes: 'green white-text'})
-        getData();
+        var send = true;
+        var name = $('#name').val();
+        var tank = $('#tank').val();
+
+        if(preg_match('/[\'%&<>]/', $tank)){
+            return false;
+        }
+        
+        if (tank < 0) {
+            send = false;
+            M.toast({ html: 'Gültigen Wert bitte eingeben', classes: 'red black-text' });
+        }
+        if (name.length < 3  && name.length > 255) {
+            console.log('zu klein oder zu gross (min. 3 max. 255 Zeichen)');
+            $('#name').addClass('orange lighten-4');
+            M.toast({ html: 'Name zu klein oder zu gross (min. 3 max. 255 Zeichen)', classes: 'red black-text' });
+            send = false;
+        }
+
+        if(send){
+            $.ajax({
+                type: "POST",
+                url: "api.php?id=" + id,
+                data: {
+                    name: $('#name').val(),
+                    kraftstoff: $('#kraftstoff').val(),
+                    color: $('#color').val(),
+                    bauart: $('#bauart').val(),
+                    tank: $('#tank').val()
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    console.log('post success');
+                    console.log(response);
+                    console.log(data);
+                    M.toast({html: modus + " - Saved", classes: 'green white-text'})
+                    getData();
+                }
+            })
+            getData();
+        }
+
     });
     
     $('.cancel').click(function () {
         console.log("cancel")
         M.toast({html: modus + " - Canceled", classes: 'red white-text'})
     })
-
-    
 
     $('.deleteToast').click(function () {
         console.log("deleted")
@@ -65,20 +86,20 @@ var modus;
 
 function showDelModal(id) {
     this.id = id;
-    // console.log(id);
-    $('#modal-main').load("sites/delModal.html", function () {
-        $('#modal-title').html("Delete");
-        $('#elementID').html(" '" + id + "' ");
-    });
-
+    this.modus = "Delete";
+    $('#delModal-title').html("Delete");
+    $('#elementID').html(" '" + id + "' ");
 }
 
 function showModal(id, modus) {
     this.id = id;
     this.modus = modus;
-    
     $('#modal-content').load("sites/formular.html", function () {
         $.getScript("js/formular.js")
     });
 
 }
+
+function isFloat(n){
+    return Number(n) === n && n % 1 !== 0;
+  }

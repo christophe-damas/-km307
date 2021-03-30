@@ -1,5 +1,5 @@
 <?php
-define('DB_NAME', 'M307_Test');
+define('DB_NAME', 'M307');
 define('DB_USER', 'root');
 define('DB_PSWD', '');
 define('DB_HOST', '127.0.0.1');
@@ -22,14 +22,18 @@ class auto{
         echo json_encode($this->array);
     }
 
+    /* Checkt die DB-connection */
     function checkdb(){
         if($this->conn = new mysqli(DB_HOST, DB_USER, DB_PSWD)){
             if(!$this->conn->select_db(DB_NAME)){
+
+                /* Falls keine DB existiert erstellt es eine */
                 $sql = "CREATE DATABASE IF NOT EXISTS " . DB_NAME . " DEFAULT CHARACTER SET utf8";
                 $this->conn->query($sql);
                 $this->conn->select_db(DB_NAME);
     
-                $sql = "CREATE TABLE IF NOT EXISTS autos (
+                /* Falls keinen Table existiert erstellt es einen */
+                $sql = "CREATE TABLE IF NOT EXISTS " . DB_TABLE . " (
                     id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
                     name VARCHAR(255) NOT NULL,
                     kraftstoff VARCHAR(255) NOT NULL,
@@ -39,42 +43,23 @@ class auto{
                 )";
                 $this->conn->query($sql);
     
-                $sql = "INSERT INTO autos (name, kraftstoff, farbe, bauart) 
+                /* Erstellt einen Beispieldatensatz */
+                $sql = "INSERT INTO " . DB_TABLE . " (name, kraftstoff, farbe, bauart) 
                 VALUES ('Passat', 'Diesel', '#000000', 'Limousine'),
                 ('Scross 4x4', 'Benzin', '#006666', 'SUV'),
                 ('Vito 119CDI', 'Diesel', '#008888', 'Limousine');";
                 $this->conn->query($sql);
             }
         }
+        
     }
 
-
+    /* Get befehl */
     function GET(){
-        if(isset($_GET['id']) AND $_GET['id'] > 0){
-            $sql = "SELECT * FROM autos WHERE id = " .$_GET['id'];
-        }else{
-            $sql = "SELECT * FROM autos";
-        }
-        $this->array['data'] = array();
-        $results = $this->conn->query($sql);
-        $i=0;
-        while($datensatz = mysqli_fetch_array($results)){
-            foreach($datensatz as $key => $value){
-                $this->array['data'][$i][$key] = $value;
-            }
-            $i++;
-        }
-
-        // $limit = $_GET['limit'];
-        
-        // if (isset($_GET['id']) && !empty($_GET['id'])) {
-        //     $sql = "SELECT * FROM " . DB_TABLE . " WHERE id =" . $_GET['id'] . ";";
-        // } else {
-        //     if (isset($limit) && !empty($limit) && $limit != 0) {
-        //         $sql = "SELECT * FROM " . DB_TABLE . " LIMIT " . $limit . ";";
-        //     } else {
-        //         $sql = "SELECT * FROM " . DB_TABLE . ";";
-        //     }
+        // if(isset($_GET['id']) AND $_GET['id'] > 0){
+        //     $sql = "SELECT * FROM " . DB_TABLE . " WHERE id = " .$_GET['id'];
+        // }else{
+        //     $sql = "SELECT * FROM " . DB_TABLE;
         // }
         // $this->array['data'] = array();
         // $results = $this->conn->query($sql);
@@ -86,74 +71,116 @@ class auto{
         //     $i++;
         // }
 
+
+
+        // von hier
+
+        $limit = $_GET['limit'];
+        
+        // echo $limit;
+        /* Überprüft ob ID != null */
+        if (isset($_GET['id']) && !empty($_GET['id'])) {
+            $sql = "SELECT * FROM " . DB_TABLE . " WHERE id =" . $_GET['id'] . ";";
+        } else {
+            /* Überprüft das Limit != null */
+            if (isset($limit) && !empty($limit) && $limit != 0) {
+                $sql = "SELECT * FROM " . DB_TABLE . " LIMIT " . $limit . ";";
+            } else {
+                $sql = "SELECT * FROM " . DB_TABLE . ";";
+            }
+        }
+        $this->array['data'] = array();
+        $results = $this->conn->query($sql);
+        $i=0;
+        while($datensatz = mysqli_fetch_array($results)){
+            foreach($datensatz as $key => $value){
+                $this->array['data'][$i][$key] = $value;
+            }
+            $i++;
+        }
+
+        //bis hier
+
+
         $this->array['sql'] = $sql;
         $this->array['success'] = "Liste Erfolgreich geladen";
         $this->array['error'] = "fehlermeldung";
     }
+
+    /* Tanken befehl */
     function TANKEN(){
         if(isset($_GET['id']) AND $_GET['id'] > 0){
 
-            $sql = " UPDATE autos SET betankungen = betankungen+1 WHERE id = " .$_GET['id'];
+            $sql = " UPDATE " . DB_TABLE . " SET betankungen = betankungen+1 WHERE id = " .$_GET['id'];
             $this->array['sql'] = $sql;
             $this->conn->query($sql);
         }
     }
+
+    /* Delete befehl */
     function DELETE(){
         if(isset($_GET['id']) AND $_GET['id'] > 0){
-            $sql = " DELETE FROM autos WHERE id = " .$_GET['id'];
+            $sql = " DELETE FROM " . DB_TABLE . " WHERE id = " .$_GET['id'];
             $this->array['sql'] = $sql;
             $this->conn->query($sql);
         }
     }
+
     function POST(){
-        if(isset($_GET['id']) AND $_GET['id'] > 0){
-            $name       = $_POST['name'];
-            $kraftstoff = isset($_POST['kraftstoff']) ? $_POST['kraftstoff'] : '';
-            $farbe      = isset($_POST['color']) ? $_POST['color'] : '';
-            $bauart     = isset($_POST['bauart']) ? $_POST['bauart'] : '';
-            $tank       = isset($_POST['tank']) ? $_POST['tank'] : 0;
-            $id         = $_GET['id'];
 
-            $sql = "UPDATE autos SET `betankungen`=$tank , `name`='$name', `kraftstoff`='$kraftstoff', `farbe`='$farbe', `bauart`='$bauart' WHERE `id`=$id";
-            $this->conn->query($sql);
-        }
+        
+        $name = $_POST['name'];
+        $kraftstoff = $_POST['kraftstoff'];
+        $bauart = $_POST['bauart'];
+        $tank = $_POST['tank'];
+        $nameStatus = chkstr($name);
+        $kraftstoffStatus = chkstr($kraftstoff);
+        $bauartStatus = chkstr($bauart);
+        $tankStatus = chkstr($tank);
 
-        else{
-            $write = true;
-            $name       = $_POST['name'];
-            if($write){
-                $write = $this->chkstr($name);
-            }
+        /* Validierung Aufrufen */
+        if (
+            $nameStatus == true &&
+            $kraftstoffStatus == true &&
+            $bauartStatus == true &&
+            $tankStatus == true
+        ) {
+            if(isset($_GET['id']) AND $_GET['id'] > 0){
+                $name       = $_POST['name'];
+                $kraftstoff = isset($_POST['kraftstoff']) ? $_POST['kraftstoff'] : '';
+                $farbe      = isset($_POST['color']) ? $_POST['color'] : '';
+                $bauart     = isset($_POST['bauart']) ? $_POST['bauart'] : '';
+                $tank       = isset($_POST['tank']) ? $_POST['tank'] : 0;
+                $id         = $_GET['id'];
 
-            if(isset($_POST['tank'])){
-                $tank = $_POST['tank'];
-            }else{
-                $tank = 0;
-            }
-
-            if($write){
-                $write = $this->chkint($tank);
-            }
-
-            $kraftstoff = isset($_POST['kraftstoff']) ? $_POST['kraftstoff'] : '';
-            $bauart     = isset($_POST['bauart']) ? $_POST['bauart'] : '';
-
-            if(isset($_POST['color'])){
-                $farbe = $_POST['color'];
-            }else{
-                $farbe = "#000000";
-            }
-            
-            if($write){
-                // DB schreinben
-                $sql = "INSERT INTO autos (`name`, `kraftstoff`, `farbe`, `bauart`, `betankungen`) VALUES ('$name', '$kraftstoff', '$farbe', '$bauart', $tank)";
+                $sql = "UPDATE " . DB_TABLE . " SET `betankungen`=$tank , `name`='$name', `kraftstoff`='$kraftstoff', `farbe`='$farbe', `bauart`='$bauart' WHERE `id`=$id";
+                echo $sql;
                 $this->conn->query($sql);
             }
+            else{
+            
+                $name       = $_POST['name'];
+                $kraftstoff = isset($_POST['kraftstoff']) ? $_POST['kraftstoff'] : '';
+                $farbe      = isset($_POST['color']) ? $_POST['color'] : '';
+                $bauart     = isset($_POST['bauart']) ? $_POST['bauart'] : '';
+                if(isset($_POST['tank'])){
+                    $tank = $_POST['tank'];
+                }else{
+                    $tank = 0;
+                }
+            
+                $sql = "INSERT INTO " . DB_TABLE . " (`name`, `kraftstoff`, `farbe`, `bauart`, `betankungen`) VALUES ('$name', '$kraftstoff', '$farbe', '$bauart', $tank)";
+                $this->conn->query($sql);
         
+            }
+        }else {
+            echo "Ihre Eingabe ist falsch!";
         }
+
         
     }
-   
+
+    /* String überprüfen */
     function chkstr($str){
         // Pflichtfeld und Grösse in der DB
         if($str == "" AND strlen($str) < 5 AND strlen($str) > 255) return false;
@@ -164,18 +191,12 @@ class auto{
         return true;
     }
 
-    function chkdate_kurz($str){
-        if (DateTime::createFromFormat('Y-m-d', $str)) {
-            return true;    
-        }else {
-            return false;
-        }
-    }
 
+    /* Datum überprüfen */
     function chkdate($str){
         if (DateTime::createFromFormat('Y-m-d', $str)) {
             //return true;
-            $array = explode('-', $str);
+            $array = explode('-', $date);
             if($array[1]<=0 OR $array[1]>12){
                 return false; 
             }
@@ -207,6 +228,7 @@ class auto{
         }
     }
 
+    /* Zahlen überprüfen */
     function chkint($zahl){
         if (is_integer($zahl)) {
             if($zahl > 2147483647 OR $zahl < 0){
@@ -219,23 +241,11 @@ class auto{
         }
     }
 
-    function chkmail_minimal($str){
-        if($str <> "" AND strlen($str) > 5 AND strlen($str) < 255){
-            if (filter_var($str, FILTER_VALIDATE_EMAIL)) {
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            return false;
-        }
-    }
-
+    /* Mail überprüfen */
     function chkmail($str){
         if($str <> "" AND strlen($str) > 5 AND strlen($str) < 255){
             if (filter_var($str, FILTER_VALIDATE_EMAIL)) {
-                //echo '<br>Könnte eine eMail sein';
-                // meine @ google.com
+  
                 $array = explode('@', $str);
                 if ( checkdnsrr($array[1], 'MX') ) {
                     //echo "<br>OK: DNS Record found";
@@ -266,7 +276,7 @@ class auto{
             return false;
         }
     }
-
+   
     public function __destruct()
     {
         $this->conn->close();

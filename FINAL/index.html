@@ -21,18 +21,18 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+   <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.1.0/mustache.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+   <script src="js/pagination.js"></script>
+   <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
    <link rel="stylesheet" href="css/style.css">
 
    <script src="js/script.js"></script>
-   <!-- <script src="js/modal.js"></script>
-   <script src="js/delModal.js"></script>
-     -->
     
 </head>
 <body>
@@ -70,22 +70,19 @@
         </div>
         <div class="modal-footer">
           <a href="#!" class="modal-close waves-effect waves-green btn-flat cancel bgColorLightGreyHover borderDarkGrey"><i class="material-icons">cancel</i></a>
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat save bgColorLightGreyHover borderDarkGrey"><i class="material-icons">save</i></a>
+          <a href="#!" id="sichern" class="modal-close waves-effect waves-green btn-flat bgColorLightGreyHover borderDarkGrey"><i class="material-icons">save</i></a>
         </div>
       </div>
 
       <!-- Modal Structure -->
       <div id="delModal" class="modal">
         <div class="modal-content">
-          <h4 id="modal-title">Modal Header</h4>
+          <h4 id="delModal-title">Modal Header</h4>
           <!-- <span id="elementID"></span> -->
-          <p id="modal-content">A bunch of text</p>
         </div>
         <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat cancel bgColorLightGreyHover borderDarkGrey">
-            <i class="material-icons">cancel</i></a>
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat deleteToast bgColorLightGreyHover borderDarkGrey">
-            <i class="material-icons">delete</i></a>          
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat cancel bgColorLightGreyHover borderDarkGrey"><i class="material-icons">cancel</i></a>
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat deleteToast bgColorLightGreyHover borderDarkGrey"><i class="material-icons">delete</i></a>          
         </div>
       </div>
 
@@ -100,6 +97,9 @@
         </div>
       </footer>
 </body>
+
+
+
 
 
 </html>

@@ -1,15 +1,14 @@
-<table class="table80 bordered centered">
+<a class="modal-trigger add" href="#modal2"><i class="material-icons orange-text">add</i></a>
+<table id="tableCars" class="table80 bordered centered tablesorter data-table">
     <thead>
       <tr>
         <th data-field="id">ID</th>
         <th data-field="name">Name</th>
         <th data-field="kraftstoff">Kraftstoff</th>
         <th data-field="farbe">Farbe</th>
-        <th data-field="bauart">Baurart</th>
+        <th data-field="bauart">Bauart</th>
         <th data-field="betankungen">Tank</th>
-        <th data-field="action">
-          <a class="modal-trigger add" href="#modal2"><i class="material-icons orange-text">add</i></a>
-        </th>
+        <th data-field="action">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -17,6 +16,24 @@
     </tbody>
 </table>
 
+<!-- <div class="row mt-2">
+  <div class="col s12 m6 l6">
+      <span id="total_reg"></span>
+  </div>
+
+  <div class="col s12 m6 l6 right-align">
+      <p class="me-2 inline">Limit:</p>
+      <button class="waves-effect waves-light btn sort black" data-value="1">1</button>
+      <button class="waves-effect waves-light btn sort black" data-value="3">3</button>
+      <button class="waves-effect waves-light btn sort black" data-value="5">5</button>
+      <button class="waves-effect waves-light btn sort black" data-value="10">10</button>
+      <button class="waves-effect waves-light btn sort black" data-value="0">ALL</button>
+  </div>
+</div>
+
+<div class="row mt-5 s12 m12 l12">
+  <ul class="center pagination pager" id="ul-pagination"></ul>
+</div> -->
 
 <script id="template" type="x-tmpl-mustache">
 {{#data}}
@@ -38,4 +55,19 @@
       </tr>
     {{/.}}
 {{/data}}
+
 </script>
+
+<script>
+  // $(document).ready( function () {
+  //     $('#tableCars').DataTable({
+  //       searching : false,
+  //       info : true,
+  //       "paginationType": "full_numbers",
+  //     });
+  //     $('dataTables_length').addClass('bs-select');
+  // } );
+  </script>
+
+
+
